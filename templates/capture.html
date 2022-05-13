@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% set active_page = "template" %}
+
+{% block title %}Capture Template{% endblock %}
+
+{% block head %}
+{{ super() }}
+
+
+{% endblock %}
+
+{% block page_content %}
+<h1 class="cap">Org Template</h1>
+<form action="/capture/new" method="post">
+    <div class="mb-3">
+        <label for="templateName" class="form-label">Template Name</label>
+        <input type="text" class="form-control" id="templateName">
+    </div>
+    <div class="mb-3">
+        <label for="relativeLocation" class="form-label">Store Location</label>
+        <input type="text" class="form-control" id="relativeLocation" aria-describedby="templateNameHelp">
+        <div id="templateNameHelp" class="form-text">Location to store the note within the org directory</div>
+    </div>
+    <div class="mb-3">
+        <label for="relativeLocation" class="form-label">Store Location</label>
+        <input type="text" class="form-control" id="relativeLocation" aria-describedby="templateNameHelp">
+        <div id="templateNameHelp" class="form-text">Location to store the note within the org directory</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+
+{% endblock %}

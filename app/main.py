@@ -1,11 +1,10 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from .library.helpers import *
 from app.routers import twoforms, unsplash, accordion
-
 
 app = FastAPI()
 
@@ -28,12 +27,31 @@ async def home(request: Request):
 async def orgpath(request: Request, path: str):
     data = listorg(path)
     return templates.TemplateResponse("files.html", {"request": request, "data": data})
+# Capture templates
+@app.get("/capture/new", response_class=HTMLResponse)
+async def orgfile(request: Request):
+    data = {}
+    return templates.TemplateResponse("capture.html", {"request": request, "data": data})
+
+# Org Editing
+@app.get("/org/new", response_class=HTMLResponse)
+async def orgfile(request: Request, content: str):
+    print(org_protocol(request, content))
+    response = RedirectResponse(url='/')
+    return response
+    # return templates.TemplateResponse("files.html", {"request": request, "data": data})
+
+@app.get("/org", response_class=HTMLResponse)
+async def orgfile(request: Request, file: str, path: str):
+    data = listorg(os.path.join(path, file))
+    return templates.TemplateResponse("files.html", {"request": request, "data": data})
 
 @app.get("/org/{file}", response_class=HTMLResponse)
 async def orgfile(request: Request, file: str, path: str):
     data = listorg(os.path.join(path, file))
     return templates.TemplateResponse("files.html", {"request": request, "data": data})
 
+# Non-org viewing
 @app.get("/page/{page_name}", response_class=HTMLResponse)
 async def show_page(request: Request, page_name: str):
     data = openfile(page_name+".md")

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}FastAPI Starter{% endblock %}
+{% block title %}Onai Tasks{% endblock %}
 {% block head %}
 {{ super() }}
 
@@ -8,8 +8,9 @@
 
 {% block page_content %}
 <main role="main" class="container">
-    <button type="button" class="btn btn-primary"><i class="fas fa-plus"></i> New Org File</button>
-    <button type="button" class="btn btn-primary"><i class="fas fa-plus"></i> New Org File</button>
+    <button type="button" class="btn btn-primary"><a href="/org/new?content=Here is some content"><i class="fas fa-plus"></i> Test Task Entry</a></button>
+    <button type="button" class="btn btn-primary"><a href="/capture/new"><i class="fas fa-plus"></i> New Template</a></button>
+    <button type="button" class="btn btn-primary"><a href="/capture/edit"><i class="fas fa-plus"></i> Edit Template</a></button>
     <table class="table table-hover">
     <thead>
         <tr>
