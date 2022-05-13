@@ -24,6 +24,15 @@ async def home(request: Request):
     data = openfile("home.md")
     return templates.TemplateResponse("page.html", {"request": request, "data": data})
 
+@app.get("/files", response_class=HTMLResponse)
+async def orgpath(request: Request, path: str):
+    data = listorg(path)
+    return templates.TemplateResponse("files.html", {"request": request, "data": data})
+
+@app.get("/org/{file}", response_class=HTMLResponse)
+async def orgfile(request: Request, file: str, path: str):
+    data = listorg(os.path.join(path, file))
+    return templates.TemplateResponse("files.html", {"request": request, "data": data})
 
 @app.get("/page/{page_name}", response_class=HTMLResponse)
 async def show_page(request: Request, page_name: str):
