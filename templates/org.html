@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 {% extends "base.html" %}
 
 {% block title %}Onai Tasks{% endblock %}
@@ -34,4 +35,43 @@
 {{ super() }}
 
 
+=======
+{% extends "base.html" %}
+
+{% block title %}Onai Tasks{% endblock %}
+{% block head %}
+{{ super() }}
+
+{% endblock %}
+
+{% block page_content %}
+<main role="main" class="container">
+    <table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Tasks</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for task in data.lines %}
+    <tr>
+        <td>
+            {{task|safe}}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <button type="button" class="btn btn-primary"><a href="/org/new?content=Here is some content"><i class="fas fa-plus"></i> Test Task Entry</a></button>
+</main><!-- /.container -->
+
+{{data.page}}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+
+>>>>>>> Stashed changes
 {% endblock %}
