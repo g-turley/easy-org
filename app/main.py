@@ -24,9 +24,9 @@ async def home(request: Request):
     return templates.TemplateResponse("page.html", {"request": request, "data": data})
 
 @app.get("/files", response_class=HTMLResponse)
-async def orgpath(request: Request, path: str):
+async def orgpath(request: Request, path: str = "\\", response: str = ""):
     data = listorg(path)
-    return templates.TemplateResponse("files.html", {"request": request, "data": data})
+    return templates.TemplateResponse("files.html", {"request": request, "data": data, "response": response})
 # Capture templates
 @app.get("/capture/new", response_class=HTMLResponse)
 async def orgfile(request: Request):
@@ -36,8 +36,8 @@ async def orgfile(request: Request):
 # Org Editing
 @app.get("/org/new", response_class=HTMLResponse)
 async def orgfile(request: Request, content: str):
-    print(org_protocol(request, content))
-    response = RedirectResponse(url='/')
+    response = org_protocol(request, content)
+    response = RedirectResponse(url=f'/files?response={response}')
     return response
     # return templates.TemplateResponse("files.html", {"request": request, "data": data})
 
@@ -48,8 +48,8 @@ async def orgfile(request: Request, file: str, path: str):
 
 @app.get("/org/{file}", response_class=HTMLResponse)
 async def orgfile(request: Request, file: str, path: str):
-    data = listorg(os.path.join(path, file))
-    return templates.TemplateResponse("files.html", {"request": request, "data": data})
+    data = readorg(os.path.join(path, file))
+    return templates.TemplateResponse("org.html", {"request": request, "data": data})
 
 # Non-org viewing
 @app.get("/page/{page_name}", response_class=HTMLResponse)

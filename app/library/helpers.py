@@ -1,4 +1,5 @@
 import os
+import re
 import markdown
 import requests
 from urllib import parse
@@ -7,12 +8,9 @@ class OrgFile:
     def __init__(self, filepath):
         self.filepath = filepath
         with open(filepath, "r", encoding="utf-8") as input_file:
-            orglines = input_file.readlines()
+            self.orglines = input_file.readlines()
             # for line in orglines:
             #     if line.startswith(":PROPERTIES:")
-    
-    def __repr__(self):
-        return self.filepath
 
 
 def openfile(filename):
@@ -55,20 +53,25 @@ def listorg(current_dir="\\"):
     }
     return data
 
-def openorg(filename):
-    filepath = os.path.join("app/org/", filename)
+def readorg(filename):
+    filepath = os.path.join(".\\app\\org\\", filename)
+    filepath = filepath.replace("\\", os.sep)
     orgfile = OrgFile(filepath)
     # Get properties from file
     data = {
-        "text": orgfile
+        "lines": orgfile.orglines
     }
     return data
 
 def org_protocol(request, content):
-    body = parse.encoded(content)
-    org_link = f"org-protocol://capture?template=w&url=localhost&title=Fake%20atitle&body={body}"
-    test_get_response = requests.get(org_link)
-    print(test_get_response)
-    if test_get_response.status_code == 200:
-        print(test_get_response.content.decode('utf-8'))
+    title = "False title"
+    url = "localhost"
+    url = parse.quote(url)
+    title = parse.quote(title)
+    body = parse.quote(content)
+    print(body)
+    # Super unsafe, but we expect this.
+    return os.system(f'emacsclient "org-protocol://capture?template=w&url={url}&title={title}&body={body}"')
+    # if test_get_response.status_code == 200:
+    #     print(test_get_response.content.decode('utf-8'))
         # print(json.loads(test_get_response.content.decode('utf-8')))
