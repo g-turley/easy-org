@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 {% extends "base.html" %}
 
 {% block title %}Onai Tasks{% endblock %}
@@ -8,21 +7,52 @@
 {% endblock %}
 
 {% block page_content %}
+{% include 'forms/task_form.html' %}
+<!-- {# Start === New Task Model #}
+<div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="projectModalLabel">New Task</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/form1" method="post">
+            <div class="modal-body">
+                {# TODO: Need to rename these fields #}
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Assignee</label>
+                    <select class="form-select" id="inputGroupSelect01">
+                      <option selected>Choose...</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                  </div>
+                <div class="input-group">
+                    <span class="input-group-text">Description</span>
+                    <textarea class="form-control" aria-label="Description"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</a></button>
+            </div>
+        </form>
+      </div>
+    </div>
+</div> -->
+{# End === New Task Model #}
+{% include 'forms/project_form.html' %}
+{# Start === Main Dash #}
 <main role="main" class="container">
-    {% if response == "0" %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Task Entry</strong> Success!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% elif response != "" %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Task Entry</strong> Something went wrong.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endif %}
-    <button type="button" class="btn btn-primary"><a href="/org/new?content=Here is some content"><i class="fas fa-plus"></i> Test Task Entry</a></button>
-    <button type="button" class="btn btn-primary"><a href="/capture/new"><i class="fas fa-plus"></i> New Template</a></button>
-    <button type="button" class="btn btn-secondary"><a href="/capture/edit"><i class="fas fa-pen-to-square"></i> Edit Template</a></button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ProjectModal">
+        <i class="fas fa-plus"></i> New Project
+    </button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TaskModal">
+        <i class="fas fa-plus"></i> New Task
+    </button>
+    <button type="button" class="btn btn-primary"><a href="/capture/new"><i class="fas fa-plus"></i> New Checklist</a></button>
+    <button type="button" class="btn btn-primary"><a href="/capture/edit"><i class="fas fa-plus"></i> Edit Checklist</a></button>
     <table class="table table-hover">
     <thead>
         <tr>
@@ -62,6 +92,7 @@
     </tbody>
     </table>
 </main><!-- /.container -->
+{# End === Main Dash #}
 
 {{data.page}}
 
@@ -72,67 +103,3 @@
 
 
 {% endblock %}
-=======
-{% extends "base.html" %}
-
-{% block title %}Onai Tasks{% endblock %}
-{% block head %}
-{{ super() }}
-
-{% endblock %}
-
-{% block page_content %}
-<main role="main" class="container">
-    <button type="button" class="btn btn-primary"><a href="/org/new?content=Here is some content"><i class="fas fa-plus"></i> Test Task Entry</a></button>
-    <button type="button" class="btn btn-primary"><a href="/capture/new"><i class="fas fa-plus"></i> New Template</a></button>
-    <button type="button" class="btn btn-primary"><a href="/capture/edit"><i class="fas fa-plus"></i> Edit Template</a></button>
-    <table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">Name</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% if data.dir != '\\' %}
-    <tr>
-        <td scope="row">
-                <a href="/files?path={{data.link_up}}">
-                <i class="fas fa-folder"></i>
-                ..
-            </a>
-        </td>
-    </tr>
-    {% endif %}
-    {% for file in data.files %}
-    <tr>
-        {% if file.endswith('.org') %}
-            <td>
-                <a href="/org/{{file}}?path={{data.dir}}">
-                    <i class="fas fa-file"></i>
-                    {{file|safe}}
-                </a>
-            </td>
-        {% else %}
-            <th>
-                <a href="/files?path={{data.dir}}\{{file}}">
-                    <i class="fas fa-folder"></i>
-                    {{file|safe}}
-                </a>
-            </th>
-        {% endif %}
-    </tr>
-    {% endfor %}
-    </tbody>
-    </table>
-</main><!-- /.container -->
-
-{{data.page}}
-
-{% endblock %}
-
-{% block scripts %}
-{{ super() }}
-
-
-{% endblock %}
->>>>>>> Stashed changes

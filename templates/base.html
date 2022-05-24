@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Free Artist Tools by cecilieo.com">
-    <meta name="author" content="Shinichi Okada">
 
     <title>{% block title %}{% endblock %} FastAPI Starter</title>
     <link rel="icon" href="{{ url_for('static', path='/images/favicon.ico') }}" sizes="32x32" />
@@ -36,16 +35,18 @@
         <!-- Page Content  -->
         <div id="content">
             {% include 'include/topnav.html' %}
-            {% if response == "0" %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Task Entry</strong> Success!
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% elif response != "" %}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>Task Entry</strong> Something went wrong.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+            {% if response is defined %}
+                {% if response == "0" %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Entry Status</strong> Success!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% elif response != "" %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Entry Status</strong> Something went wrong
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
             {% endif %}
             {% block page_content %}
             {% endblock %}

@@ -184,3 +184,8 @@ a.article:hover {
     justify-content: end;
     width:100%;
 }
+
+.required:before {
+    content:"*\00a0";
+    color:red;
+}

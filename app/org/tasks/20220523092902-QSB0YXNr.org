@@ -1,0 +1,12 @@
+:PROPERTIES:
+:ID:       792ca8cd-7498-4552-a70d-31697074cdd3
+:END:
+#+FILETAGS: :Task:
+* TODO A task
+:PROPERTIES:
+:Assigned: Dude
+:Project: NotTask
+:Checker: Boy
+:END:
+
+DSdfjk

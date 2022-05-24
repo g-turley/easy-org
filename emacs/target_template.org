@@ -1,0 +1,6 @@
+#+FILETAGS: :Target:
+* %^{Assignee}
+%^{StartDate}p
+%^{EndDate}p
+%^{Project}p
+%^{Target #}p

@@ -1,0 +1,29 @@
+<div class="modal fade" id="{{formTitle}}Modal" tabindex="-1" aria-labelledby="{{formTitle}}ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="{{formTitle}}ModalLabel">New {{formTitle}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        {% block form_content %}
+        <!-- <form action="/form1" method="post"> -->
+            <!-- <div class="modal-body"> -->
+                    <!-- <input type="text" class="form-control" name="project" placeholder="Enter New Project Name..." required /> -->
+                    <!-- <input class="form-control" list="projectOptions" id="projectDataList" placeholder="Enter New Project Name..." required>
+                        <datalist id="projectOptions">
+                        <option value="San Francisco">
+                        <option value="New York">
+                        <option value="Seattle">
+                        <option value="Los Angeles">
+                        <option value="Chicago">
+                        </datalist> -->
+            <!-- </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form> -->
+        {% endblock %}
+      </div>
+    </div>
+</div>

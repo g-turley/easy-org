@@ -1,0 +1,7 @@
+#+FILETAGS: :Task:
+#+title: %^{Task}
+* TODO %^{Task}
+%^{Assigned}p
+%^{%(onai/get-tag-list "Project")}p
+%^{Checker}p
+%^{Description}
