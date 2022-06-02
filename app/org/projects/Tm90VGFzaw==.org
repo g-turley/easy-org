@@ -1,5 +1,0 @@
-:PROPERTIES:
-:ID:       af539c7b-1bdd-4704-be00-71eaa6c16aa6
-:END:
-#+FILETAGS: :Project:
-#+title: NotTask

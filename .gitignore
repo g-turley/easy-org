@@ -2,6 +2,11 @@
 .DS_Store
 /data
 /tmp
+# Org directory files
+app/org/checklists/**
+app/org/projects/**
+app/org/targets/**
+app/org/tasks/**
 
 
 # Byte-compiled / optimized / DLL files

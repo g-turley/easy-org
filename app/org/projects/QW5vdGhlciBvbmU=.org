@@ -3,4 +3,3 @@
 :END:
 #+FILETAGS: :Project:
 #+title: Another one
-Garrett Turley

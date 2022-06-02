@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import starlette.status as status
 from .library.helpers import *
-from app.routers import twoforms, unsplash, accordion, org
+from app.routers import org
 
 app = FastAPI()
 
@@ -13,24 +13,22 @@ templates = Jinja2Templates(directory="templates")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-app.include_router(unsplash.router)
-app.include_router(twoforms.router)
-app.include_router(accordion.router)
 app.include_router(org.router)
 
-# create_org_form('task')
-# create_org_form('project')
 # Home
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    data = openfile("home.md")
-    return templates.TemplateResponse("page.html", {"request": request, "data": data})
+    return RedirectResponse(url=f'/files', status_code=status.HTTP_302_FOUND)
+    # data = openfile("home.md")
+    # return templates.TemplateResponse("page.html", {"request": request, "data": data})
 
 # Files
 @app.get("/files", response_class=HTMLResponse)
 async def orgpath(request: Request, path: str = "\\", response: str = ""):
+    # These generate the html forms for the modals.
     create_org_form('task')
     create_org_form('project')
+    create_org_form('target')
     data = listorg(path)
     return templates.TemplateResponse("files.html", {"request": request, "data": data, "response": response})
 

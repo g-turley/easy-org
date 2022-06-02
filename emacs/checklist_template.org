@@ -1,2 +1,3 @@
 #+FILETAGS: :Checklist:
-* %i
+#+title: %^{Checklist Name}
+%i

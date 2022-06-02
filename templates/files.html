@@ -7,42 +7,10 @@
 {% endblock %}
 
 {% block page_content %}
+{# End === New Template Model #}
 {% include 'forms/task_form.html' %}
-<!-- {# Start === New Task Model #}
-<div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="projectModalLabel">New Task</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="/form1" method="post">
-            <div class="modal-body">
-                {# TODO: Need to rename these fields #}
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupSelect01">Assignee</label>
-                    <select class="form-select" id="inputGroupSelect01">
-                      <option selected>Choose...</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select>
-                  </div>
-                <div class="input-group">
-                    <span class="input-group-text">Description</span>
-                    <textarea class="form-control" aria-label="Description"></textarea>
-                </div>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Submit</a></button>
-            </div>
-        </form>
-      </div>
-    </div>
-</div> -->
-{# End === New Task Model #}
 {% include 'forms/project_form.html' %}
+{% include 'forms/target_form.html' %}
 {# Start === Main Dash #}
 <main role="main" class="container">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ProjectModal">
@@ -51,8 +19,10 @@
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TaskModal">
         <i class="fas fa-plus"></i> New Task
     </button>
-    <button type="button" class="btn btn-primary"><a href="/capture/new"><i class="fas fa-plus"></i> New Checklist</a></button>
-    <button type="button" class="btn btn-primary"><a href="/capture/edit"><i class="fas fa-plus"></i> Edit Checklist</a></button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#TargetModal">
+        <i class="fas fa-plus"></i> New Target
+    </button>
+    <!-- <button type="button" class="btn btn-primary"><a href="/checklist/new"><i class="fas fa-plus"></i> New Checklist</a></button> -->
     <table class="table table-hover">
     <thead>
         <tr>
@@ -78,6 +48,8 @@
                     <i class="fas fa-file"></i>
                     {{file|safe}}
                 </a>
+                <!-- TODO: Add HTML export feature -->
+                <!-- <button type="button" class="btn btn-primary btn-sm pull-right"><a href="/org/{{file}}?path={{data.dir}}?export=html"><i class="fas fa-code"></i> Export HTML</a></button> -->
             </td>
         {% else %}
             <th>

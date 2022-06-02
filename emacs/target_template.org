@@ -1,6 +1,6 @@
 #+FILETAGS: :Target:
 * %^{Assignee}
-%^{StartDate}p
-%^{EndDate}p
-%^{Project}p
+%^{Start Date}p
+%^{End Date}p
+%^{%(easy-org/get-tag-list "Project" t)}p
 %^{Target #}p

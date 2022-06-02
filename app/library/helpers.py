@@ -103,6 +103,16 @@ def get_org_inputs(form_type):
             form_values[label] = (m.group(0),m.group(2), default, options)
     return form_values
 
+def process_org_link(org_link):
+    # [[id:<link>][<text>]] --> {<text>: <link>}
+    re_link = re.match(r"\[\[id:(.+)\]\[(.+)\]\]", org_link)
+    if re_link:
+        return (re_link.group(2), re_link.group(0))
+    else:
+        return (org_link, org_link)
+
+# Functions that generate templates or forms are below
+
 def create_org_form(form_type):
     form_values = get_org_inputs(form_type)
     with open(f'./templates/forms/{form_type}_form.html', 'w') as f:
@@ -113,31 +123,40 @@ def create_org_form(form_type):
         f.write(f'<form action="/org/new?form_type={form_type}" method="post">')
         f.write('<div class="modal-body">')
         for form_element in form_values.keys():
-            default = form_values[form_element][-2]
-            options = form_values[form_element][-1]
-            if len(options) > 0:
-                f.write(f'<div class="input-group mb-3"><label class="input-group-text" for="inputGroupSelect{form_element}">{form_element}</label><select class="form-select" name="{form_element}" id="inputGroupSelect{form_element}">')
-                if default != "":
-                    f.write(f'<option value="{default}" selected>{default}</option>')
-                else:
-                    f.write(f'<option selected>Choose an option...</option>')
-                for option in options:
-                    f.write(f'<option value="{option}">{option}</option>')
-                f.write('</select></div>')
-            else:
+            default = process_org_link(form_values[form_element][-2])
+            options = [process_org_link(opt) for opt in form_values[form_element][-1]]
+            if form_element.lower().endswith('date'):
+                # Datetime picker
                 f.write(f'<div class="mb-3"><label for="{form_element}FormControlInput" class="form-label">{form_element.title()}</label>')
-                if default != "":
-                    default_html = f"value='{default}'"
+                f.write(f'<input type="text" name="{form_element}" class="time form-control" id="{form_element}ControlInput">')
+                f.write('</div>')   
+            else:
+                if len(options) > 0:
+                    # Dropdown
+                    f.write(f'<div class="input-group mb-3"><label class="input-group-text" for="inputGroupSelect{form_element}">{form_element}</label><select class="form-select" name="{form_element}" id="inputGroupSelect{form_element}">')
+                    if default[0] != "":
+                        f.write(f'<option value="{default[1]}" selected>{default[0]}</option>')
+                    else:
+                        f.write(f'<option selected>Choose an option...</option>')
+                    for option in options:
+                        f.write(f'<option value="{option[1]}">{option[0]}</option>')
+                    f.write('</select></div>')
                 else:
-                    default_html = ""
-                end_input_type = ""
-                if form_element == "Description":
-                    input_type = "textarea"
-                    end_input_type = "</textarea>"
-                else:
-                    input_type = "input"
-                f.write(f'<{input_type} type="text" name="{form_element}" class="form-control" id="{form_element}ControlInput" ' + default_html + f' >{end_input_type}')
-                f.write('</div>')
+                    # Text input
+                    f.write(f'<div class="mb-3"><label for="{form_element}FormControlInput" class="form-label">{form_element.title()}</label>')
+                    if default[0] != "":
+                        default_html = f"value='{default[1]}'"
+                    else:
+                        default_html = ""
+                    end_input_type = ""
+                    # Description Box
+                    if form_element.lower().endswith('description'):
+                        input_type = "textarea"
+                        end_input_type = "</textarea>"
+                    else:
+                        input_type = "input"
+                    f.write(f'<{input_type} type="text" name="{form_element}" class="form-control" id="{form_element}ControlInput" ' + default_html + f' >{end_input_type}')
+                    f.write('</div>')
         f.write('</div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button><button type="submit" class="btn btn-primary">Submit</button></div></form>{% endblock %}')
 
 def create_org_template(form_type: str, input_values):
@@ -198,5 +217,7 @@ def org_protocol(contenttype: str, filename:str, content: str):
     title = parse.quote(title)
     body = parse.quote(content)
     # Super unsafe, but we expect this.
-    # This uses template 't'
-    return os.system(f'emacsclient "org-protocol://capture?template={template}&url={url}&title={title}&body={body}"')
+    code_result = os.system(f'emacsclient "org-protocol://capture?template={template}&url={url}&title={title}&body={body}"')
+    # Force a rebuild
+    os.system(f'emacsclient --eval "(org-roam-db-sync)"')
+    return code_result

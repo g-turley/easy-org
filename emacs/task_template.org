@@ -2,6 +2,6 @@
 #+title: %^{Task}
 * TODO %^{Task}
 %^{Assigned}p
-%^{%(onai/get-tag-list "Project")}p
+%^{%(easy-org/get-tag-list "Project" t)}p
 %^{Checker}p
 %^{Description}
